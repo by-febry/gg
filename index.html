@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bella My Love</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css"
+  <!-- Add this audio element (hidden) -->
+  <audio id="bgMusic" loop>
+    <source src="Hindi Ako Mawawala (c) El Manu (Official Lyric Video).mp3" type="audio/mpeg">
+    <!-- Fallback message -->
+    Your browser does not support audio playback.
+  </audio>
+  
+</head>
+<body>
+  <h1>For Bella</h1>
+  <div class="pulse-overlay"></div>
+  <div class="flower-container">
+    <img src="flower-daisy.gif" alt="Flower" class="flower-img" />
+    <div class="heart-border"></div>
+  </div>
+  <div class="divider-container">
+    <div class="divider-line"></div>
+    <div class="divider-text">
+      <button class="arrow-btn" id="arrowLeft" title="Previous message" aria-label="Previous message">
+        <i class="fas fa-angle-left"></i>
+      </button>
+      <div class="message-container" id="messageContainer"></div>
+      <button class="arrow-btn" id="arrowRight" title="Next message" aria-label="Next message">
+        <i class="fas fa-angle-right"></i>
+      </button>
+    </div>
+    <div class="divider-line"></div>
+  </div>
+  <!-- Add music toggle button -->
+  <button class="music-btn" id="musicToggle" title="Toggle music" aria-label="Toggle background music">
+    <i class="fas fa-music"></i>
+  </button>
+
+  <div class="fraction">
+    1/1 / 100
+  </div>
+
+  <script>
+    const messages = [
+      "Hi love, I wanna start by saying I'm so sorry. I know what i've done was wrong,",
+      "I hurt you.",
+      "I Triggered your trauma.",
+      "I know you are not okay, kasi for sure it brings back the same pain as your ex made feel you.",
+      "and now it feels like I'm just the same and that's the last thing i want.",
+      "I'm taking full responsibility of my actions, I know words won't be enough pero.",
+      "I'm gonna change, I know you all have the reasons for you to leave me pero.",
+      "If there's still a chance, a one last chance to change.",
+      "I'm willing to do whatever it takes to gain back your trust.",
+      "You see this flower that is about to fall off?.",
+      "That must be how you're feeling right now..drained, tired, diasspointed, and just wanting to give up.",
+      "I know sobrang hirap neto para sayo.",
+      "and I'm really ashamed of myself for what i've done.",
+      "pero love, My love for you is real, genuine, and true.",
+      "I'll keep choosing you no matter what, even if from afar.",
+      "I'm aware that this might be the real breakup that's gonna happen, but I'm not gonna give up on you.",
+      "I won't be sending money for vp like i used to cause this isn't just a simple fight or whatever we called it, this is different.",
+      "Eto na ata siguro love, the hell am i doing, why did i even let this to happen.",
+      "If you ever decide to really walk away po love, I won't stop you but I'll still pursue you.",
+      "I'll pursue you hanggang sa kadulu-duluhan.",
+      "I'll fight for us, I'll fight for you, because you are worth on every effort, every change, every love i have to give.",
+      "This is gonna be a hella ride, but I'm willing to do whatever it takes to make you happy, to regain your trust.",
+      "Kasi ikaw lang gusto ko ko makasama, wala nang iba and I told you i see you in my future, and I still do.",
+      "I also want to say that you're enought, walang kulang sayo if there is that's me. And i'll do everything to fix that.",
+      "I know these words are not enough for you to trust me and hindi naman ganon kasimple makuha ang trust diba po?",
+      "I'll earn it, slowly, gently, and consistently",
+      "Not just words, but with actions and showing up to you everyday",
+      "I don't want to just say sorry, I want to prove to you that you're safe with me. Kahit mahirap, kahit matagal.",
+      "I'm ready. because i choose you love always.",
+      "I love you always and forever, Honey."
+  
+    ];
+  
+    let currentIndex = 0;
+    const messageContainer = document.getElementById('messageContainer');
+    const leftArrow = document.getElementById('arrowLeft');
+    const rightArrow = document.getElementById('arrowRight');
+  
+    function animateText(text) {
+      messageContainer.innerHTML = '';
+      // Process each character while preserving original spacing
+      for (let i = 0; i < text.length; i++) {
+        const span = document.createElement('span');
+        span.className = 'letter';
+        span.textContent = text[i]; // Keep original characters including spaces
+        span.style.animationDelay = `${i * 0.04}s`;
+        messageContainer.appendChild(span);
+      }
+    }
+    function updateText() {
+      animateText(messages[currentIndex]);
+      document.querySelector('.fraction').textContent = `${currentIndex + 1}/${messages.length}`;
+    }
+  
+    leftArrow.addEventListener('click', () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+        updateText();
+      }
+    });
+  
+    rightArrow.addEventListener('click', () => {
+      if (currentIndex < messages.length - 1) {
+        currentIndex++;
+        updateText();
+      }
+    });
+    
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') leftArrow.click();
+      if (e.key === 'ArrowRight') rightArrow.click();
+    });
+    
+    updateText();
+    // Music autoplay with user interaction fallback
+    document.addEventListener('DOMContentLoaded', function() {
+      const music = document.getElementById('bgMusic');
+      const toggleBtn = document.getElementById('musicToggle');
+      
+      // Try autoplay (may not work on all browsers)
+      const playPromise = music.play();
+      
+      // Handle autoplay restrictions
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          // Show button if autoplay fails
+          toggleBtn.style.display = 'block';
+        });
+      }
+      
+      // Toggle button functionality
+      toggleBtn.addEventListener('click', function() {
+        if (music.paused) {
+          music.play();
+          toggleBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        } else {
+          music.pause();
+          toggleBtn.innerHTML = '<i class="fas fa-music"></i>';
+        }
+      });
+      
+      // Start with button hidden if autoplay works
+      toggleBtn.style.display = 'none';
+    });
+
+     // Create floating hearts
+     function createHearts(count) {
+      for (let i = 0; i < count; i++) {
+        const heart = document.createElement('div');
+        heart.innerHTML = '<i class="fas fa-heart"></i>';
+        heart.className = 'heart';
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.top = Math.random() * 100 + 'vh';
+        heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+        heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+        document.body.appendChild(heart);
+        
+        // Remove heart after animation
+        setTimeout(() => {
+          heart.remove();
+        }, 4000);
+      }
+    }
+    
+    // Heart border effect
+    const heartBorder = document.querySelector('.heart-border');
+    
+    // Enhanced arrow click handlers
+    function addArrowEffects() {
+      [leftArrow, rightArrow].forEach(arrow => {
+        arrow.addEventListener('click', () => {
+          // Heart border pulse
+          heartBorder.classList.remove('active');
+          void heartBorder.offsetWidth; // Trigger reflow
+          heartBorder.classList.add('active');
+          
+          // Floating hearts
+          createHearts(8);
+        });
+      });
+    }
+    
+    // Initialize
+    addArrowEffects();
+    updateText();
+    
+    // Continuous subtle hearts in background
+    setInterval(() => createHearts(2), 3000);
+
+     // Full-screen pulse effect
+     const pulseOverlay = document.querySelector('.pulse-overlay');
+    
+    function triggerPulse() {
+      pulseOverlay.classList.remove('active');
+      void pulseOverlay.offsetWidth; // Trigger reflow
+      pulseOverlay.classList.add('active');
+    }
+    
+    // Create floating hearts (faded version)
+    function createHearts(count) {
+      for (let i = 0; i < count; i++) {
+        const heart = document.createElement('div');
+        heart.innerHTML = '<i class="fas fa-heart"></i>';
+        heart.className = 'heart';
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.bottom = '10px'; // Start from bottom
+        heart.style.fontSize = (Math.random() * 15 + 10) + 'px';
+        heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+        document.body.appendChild(heart);
+        
+        setTimeout(() => heart.remove(), 4000);
+      }
+    }
+    
+    // Enhanced arrow click handlers
+    function addArrowEffects() {
+      [leftArrow, rightArrow].forEach(arrow => {
+        arrow.addEventListener('click', () => {
+          triggerPulse();
+          createHearts(5); // Fewer, more subtle hearts
+        });
+      });
+    }
+    
+    // Initialize
+    addArrowEffects();
+    updateText();
+    
+    // Gentle background hearts
+    setInterval(() => createHearts(1), 2000);
+  </script>
+</body>
+</html>
